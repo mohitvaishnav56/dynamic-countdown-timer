@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CountDown Timer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              clifford: "#da373d",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        font-family: 'Arial', sans-serif; /* Change to a more modern font */
+      }
+
+      .circle {
+        position: relative;
+        width: 90vw; /* Responsive width */
+        max-width: 600px; /* Max width for larger screens */
+        height: 90vw; /* Responsive height */
+        max-height: 600px; /* Max height for larger screens */
+      }
+
+      .circle::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        z-index: -1;
+        inset: 0;
+      }
+
+      .circle::after {
+        content: "";
+        position: absolute;
+        width: 90%;
+        height: 90%;
+        top: 50%;
+        left: 50%;
+        background-color: #0f0f0f;
+        border-radius: 50%;
+        transform: translate(-50%, -50%); /* Centering inside the parent */
+        z-index: 0;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      }
+
+      .time {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1; /* Ensure timer is above the SVG and decorations */
+        color: #fff;
+      }
+
+      .time div {
+        margin: 0 10px;
+        text-align: center; /* Centering time blocks */
+      }
+
+      svg circle {
+        stroke-linecap: round;
+        stroke-dasharray: 1136; /* Circumference of the circle */
+        stroke-dashoffset: 2272; /* Start at the beginning */
+      }
+
+      /* Button Styles */
+      button {
+        transition: background-color 0.3s, transform 0.2s; /* Transition effects */
+      }
+
+      button:hover {
+        background-color: #3b82f6; /* Change to a different shade on hover */
+        transform: scale(1.05); /* Slightly enlarge on hover */
+      }
+
+      /* Responsive Text Size */
+      @media (max-width: 640px) {
+        .time h1 {
+          font-size: 3rem; /* Smaller text for mobile */
+        }
+      }
+    </style>
+  </head>
+  <body class="w-full h-screen bg-[#000] flex items-center justify-center">
+    <main class="flex flex-col items-center">
+      <h1 class="text-[#fff] text-3xl mb-4">Countdown Timer</h1>
+      <div class="circle flex items-center justify-center relative mb-6">
+        <!-- Circle SVG -->
+        <svg width="100%" height="100%" viewBox="0 0 400 400">
+          <circle cx="50%" cy="50%" r="180" fill="none" stroke="#fff" stroke-width="20"></circle>
+        </svg>
+
+        <!-- Timer -->
+        <div class="time flex gap-4">
+          <div class="days flex flex-col items-center">
+            <h1 id="days" class="text-5xl">00</h1>
+            <h1 class="bg-zinc-500 p-2 rounded">Day</h1>
+          </div>
+          <div class="hour flex flex-col items-center">
+            <h1 id="hours" class="text-5xl">00</h1>
+            <h1 class="bg-zinc-500 p-2 rounded">Hour</h1>
+          </div>
+          <div class="minute flex flex-col items-center">
+            <h1 id="min" class="text-5xl">00</h1>
+            <h1 class="bg-zinc-500 p-2 rounded">Minute</h1>
+          </div>
+          <div class="second flex flex-col items-center">
+            <h1 id="sec" class="text-5xl">00</h1>
+            <h1 class="bg-zinc-500 p-2 rounded">Second</h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audio Element for Timer End Sound -->
+      <audio id="end-sound" src="timer-end.mp3" preload="auto"></audio>
+
+      <button id="start-button" class="bg-blue-600 text-white p-4 rounded-lg shadow-lg">Start Countdown</button>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
